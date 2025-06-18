@@ -1,0 +1,382 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>米游社登录简单逆向 | MapleLeaf</title><meta name="author" content="MapleLeaf"><meta name="copyright" content="MapleLeaf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="记一次简单的米游社网页端登录逆向 前言为什么写这个呢? 放在文章最后 开始逆向抓包打开米游社官网 原神社区-米游社 直接开始抓包  可以明显的看到目标链接为https:&#x2F;&#x2F;passport-api.miyoushe.com&#x2F;account&#x2F;ma-cn-passport&#x2F;web&#x2F;loginByPassword 参数分析 有两个参数需要分析,account和password  直接搜索password">
+<meta property="og:type" content="article">
+<meta property="og:title" content="米游社登录简单逆向">
+<meta property="og:url" content="http://mapleleaf.icu/2025/03/15/myslogin/index.html">
+<meta property="og:site_name" content="MapleLeaf">
+<meta property="og:description" content="记一次简单的米游社网页端登录逆向 前言为什么写这个呢? 放在文章最后 开始逆向抓包打开米游社官网 原神社区-米游社 直接开始抓包  可以明显的看到目标链接为https:&#x2F;&#x2F;passport-api.miyoushe.com&#x2F;account&#x2F;ma-cn-passport&#x2F;web&#x2F;loginByPassword 参数分析 有两个参数需要分析,account和password  直接搜索password">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image.blog.mapleleaf.icu/img/imgs/20250315212108369.png">
+<meta property="article:published_time" content="2025-03-15T12:14:11.000Z">
+<meta property="article:modified_time" content="2025-06-18T05:28:11.438Z">
+<meta property="article:author" content="MapleLeaf">
+<meta property="article:tag" content="逆向">
+<meta property="article:tag" content="web逆向">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image.blog.mapleleaf.icu/img/imgs/20250315212108369.png"><link rel="shortcut icon" href="http://q2.qlogo.cn/headimg_dl?dst_uin=1011303349&spec=100"><link rel="canonical" href="http://mapleleaf.icu/2025/03/15/myslogin/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="baidu-site-verification" content="codeva-iXMffSEnOn"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: 'pub-4591613224677962',
+  enable_page_level_ads: 'true'
+});</script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?41cf30b2eab9e9c082c5246ef33e133c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":100,"position":"top","messagePrev":"这是","messageNext":"天之前的内容，文章的内容可能已过时。"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-center"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: true,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '米游社登录简单逆向',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-06-18 13:28:11'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/font.css"><link rel="stylesheet" href="/css/custom.css"  media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn1.tianli0.top/npm/element-ui@2.15.6/packages/theme-chalk/lib/index.css"><span id="fps"></span><svg aria-hidden="true" style="position:absolute; overflow:hidden; width:0; height:0"><symbol id="icon-sun" viewBox="0 0 1024 1024"><path d="M960 512l-128 128v192h-192l-128 128-128-128H192v-192l-128-128 128-128V192h192l128-128 128 128h192v192z" fill="#FFD878" p-id="8420"></path><path d="M736 512a224 224 0 1 0-448 0 224 224 0 1 0 448 0z" fill="#FFE4A9" p-id="8421"></path><path d="M512 109.248L626.752 224H800v173.248L914.752 512 800 626.752V800h-173.248L512 914.752 397.248 800H224v-173.248L109.248 512 224 397.248V224h173.248L512 109.248M512 64l-128 128H192v192l-128 128 128 128v192h192l128 128 128-128h192v-192l128-128-128-128V192h-192l-128-128z" fill="#4D5152" p-id="8422"></path><path d="M512 320c105.888 0 192 86.112 192 192s-86.112 192-192 192-192-86.112-192-192 86.112-192 192-192m0-32a224 224 0 1 0 0 448 224 224 0 0 0 0-448z" fill="#4D5152" p-id="8423"></path></symbol><symbol id="icon-moon" viewBox="0 0 1024 1024"><path d="M611.370667 167.082667a445.013333 445.013333 0 0 1-38.4 161.834666 477.824 477.824 0 0 1-244.736 244.394667 445.141333 445.141333 0 0 1-161.109334 38.058667 85.077333 85.077333 0 0 0-65.066666 135.722666A462.08 462.08 0 1 0 747.093333 102.058667a85.077333 85.077333 0 0 0-135.722666 65.024z" fill="#FFB531" p-id="11345"></path><path d="M329.728 274.133333l35.157333-35.157333a21.333333 21.333333 0 1 0-30.165333-30.165333l-35.157333 35.157333-35.114667-35.157333a21.333333 21.333333 0 0 0-30.165333 30.165333l35.114666 35.157333-35.114666 35.157334a21.333333 21.333333 0 1 0 30.165333 30.165333l35.114667-35.157333 35.157333 35.157333a21.333333 21.333333 0 1 0 30.165333-30.165333z" fill="#030835" p-id="11346"></path></symbol></svg><!-- hexo injector head_end start --><style type="text/css">.runcode {zoom:1;}
+.runcode p{margin:0;}
+.runcode_text {display: block;height: 180px;width: 100%;color:#ccc;overflow-x:hidden;letter-spacing:1px;text-shadow:1px 1px 1px #111;font-family:Consolas,Fixedsys;padding:2px;font-size:13px;line-height:1.5em;background:#404040;border:3px inset #eee;}
+.runcode_button{border:1px solid #ccc;font-size:16px;font-weight:bold;cursor: pointer;
+	border-radius:3px;
+	text-shadow:1px 1px 0 #eee;
+	box-shadow:1px 0 1px #999;
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#eee, endColorstr=#aaa);
+	background: linear-gradient(top, #eee, #ccc ,#aaa,#aaa,#aaa);
+	background: -moz-linear-gradient(top, #eee, #ccc ,#aaa,#aaa,#aaa);
+	background: -webkit-gradient(linear, 0 0, 0 100% , from(#eee),to(#aaa));
+	background: -webkit-linear-gradient(0 0, #eee, #ccc ,#aaa,#aaa,#aaa);
+}
+</style><script type="text/javascript">var runcode = {};
+runcode.open=function(element){
+	var code = document.getElementById(element).value;
+	var win = window.open("", "", "");
+	win.opener = null;
+	win.document.write(code);
+	win.document.close();
+}
+runcode.copy=function(element){
+	var codeobj = document.getElementById(element) ;
+	if (window.clipboardData)
+	{	
+		window.clipboardData.setData("Text", codeobj.value);
+	}else{
+		codeobj.select(); 	
+		codeobj.setSelectionRange(0, codeobj.value.length);
+		document.execCommand('copy');
+		setTimeout(function(){
+			codeobj.blur()
+		},300);
+	}
+}
+
+
+
+</script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="MapleLeaf" type="application/atom+xml">
+</head><body><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><div class="loading-img"></div><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="/css/progress_bar.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="http://q2.qlogo.cn/headimg_dl?dst_uin=1011303349&amp;spec=100" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 档案</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);" rel="external nofollow noreferrer"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fas fa-quote-left"></i><span> 说说</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://image.blog.mapleleaf.icu/img/imgs/20250315212108367.png')"><nav id="nav"><span id="blog-info"><a href="/" title="MapleLeaf"><img class="site-icon" src="http://q2.qlogo.cn/headimg_dl?dst_uin=1011303349&amp;spec=100"/><span class="site-name">MapleLeaf</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" rel="external nofollow noreferrer"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 档案</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);" rel="external nofollow noreferrer"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fas fa-quote-left"></i><span> 说说</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" rel="external nofollow noreferrer"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">米游社登录简单逆向</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-03-15T12:14:11.000Z" title="发表于 2025-03-15 20:14:11">2025-03-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-06-18T05:28:11.438Z" title="更新于 2025-06-18 13:28:11">2025-06-18</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="米游社登录简单逆向"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/2025/03/15/myslogin/#post-comment"><span class="gitalk-comment-count"><i class="fa-solid fa-spinner fa-spin"></i></span></a></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>记一次简单的米游社网页端登录逆向</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>为什么写这个呢? 放在文章最后</p>
+<h2 id="开始逆向"><a href="#开始逆向" class="headerlink" title="开始逆向"></a>开始逆向</h2><h3 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h3><p>打开米游社官网 <a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.miyoushe.com/ys/">原神社区-米游社</a> 直接开始抓包</p>
+<p><img src="https://image.blog.mapleleaf.icu/img/imgs/20250315202154513.png"></p>
+<p>可以明显的看到目标链接为<code>https://passport-api.miyoushe.com/account/ma-cn-passport/web/loginByPassword</code></p>
+<h3 id="参数分析"><a href="#参数分析" class="headerlink" title="参数分析"></a>参数分析</h3><p><img src="https://image.blog.mapleleaf.icu/img/imgs/20250315202258161.png"></p>
+<p>有两个参数需要分析,<code>account</code>和<code>password</code></p>
+<p><img src="https://image.blog.mapleleaf.icu/img/imgs/20250315202634535.png"></p>
+<p>直接搜索<code>password</code>并在可疑部分加上断点</p>
+<p><img src="https://image.blog.mapleleaf.icu/img/imgs/20250315202841852.png" alt="image-20250315202841156"></p>
+<p>断在了这里,并<code>account</code>和<code>password</code>与账号密码对应正确,那就基本找对了,继续走一步</p>
+<p><img src="https://image.blog.mapleleaf.icu/img/imgs/20250315203031726.png" alt="image-20250315203031052"></p>
+<p>根据函数名推断<code>a.Z.encrypt</code>就是需要找的加密函数</p>
+<p><img src="https://image.blog.mapleleaf.icu/img/imgs/20250315203144747.png" alt="image-20250315203144027"></p>
+<p>控制台打印一下,更像了,跳到该函数,打上断点</p>
+<p><img src="https://image.blog.mapleleaf.icu/img/imgs/20250315203236032.png" alt="image-20250315203235391"></p>
+<p><img src="https://image.blog.mapleleaf.icu/img/imgs/20250315203420362.png" alt="image-20250315203419641"></p>
+<p><code>t</code>为</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;errorToast&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;errorH5log&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;errorH5logAdditionalData&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;account&quot;</span><span class="punctuation">:</span> <span class="string">&quot;11111111111&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;headers&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;x-rpc-source&quot;</span><span class="punctuation">:</span> <span class="string">&quot;v2.webLogin&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>encrypt</code>函数为</p>
+<p><img src="https://image.blog.mapleleaf.icu/img/imgs/20250315203928101.png" alt="image-20250315203927417"></p>
+<p>跳入<code>this.getKey()</code>函数</p>
+<p><img src="https://image.blog.mapleleaf.icu/img/imgs/20250315204726743.png" alt="image-20250315204725973"></p>
+<p>很明显就能看到</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">this</span>.<span class="property">key</span> = <span class="keyword">new</span> ct</span><br></pre></td></tr></table></figure>
+
+<p>初步推断,这就是公钥参数,进入<code>ct</code>函数,打上断点</p>
+<p>没断下来,应该是存储在全局变量了,刷新网页,在打着断点的情况下再次点击登录</p>
+<p><img src="https://image.blog.mapleleaf.icu/img/imgs/20250315205136334.png" alt="image-20250315205135654"></p>
+<p>断下来了,看到了参数<code>n</code>,尚不能确定,跟栈看看</p>
+<p><img src="https://image.blog.mapleleaf.icu/img/imgs/20250315205235034.png" alt="image-20250315205234310"></p>
+<p>跟栈发现参数<code>n</code>是<strong>明文</strong>存储在js代码中的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">i.<span class="title function_">setPublicKey</span>(<span class="string">&quot;MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDvekdPMHN3AYhm/vktJT+YJr7\ncI5DcsNKqdsx5DZX0gDuWFuIjzdwButrIYPNmRJ1G8ybDIF7oDW2eEpm5sMbL9zs\n9ExXCdvqrn51qELbqj0XxtMTIpaCHFSI50PfPpTFV9Xt/hmyVwokoOXFlAEgCn+Q\nCgGs52bFoYMtyi+xEQIDAQAB&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>观察发现存在换行符,推测为公钥,这样,参数差不多逆向完了,完整代码就不放出了</p>
+<h2 id="事出有因"><a href="#事出有因" class="headerlink" title="事出有因"></a>事出有因</h2><p>为什么我闲的去逆向一个别人早就逆向完了的网站呢(PS:如果还有问题可以按照我的步骤重新逆向米游社)</p>
+<h3 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h3><p>已经不能说是几天前了,应该是几个月前(该篇文章写于2025年3月15日晚),我发现有人大范围说<strong>Yunzai Bot</strong>存在盗取米哈游账号的后门</p>
+<p>了解得知,是名为<strong>TRSS-Plugin</strong>的插件存在米游社登录功能,部分代码截图如下</p>
+<p><img src="https://image.blog.mapleleaf.icu/img/imgs/20250315210744743.png" alt="image-20250315210743994"></p>
+<p>其中的一部分参数导致部分人认为开发者具有盗取账号的能力</p>
+<div class="note warning simple"><p>我已阅读并了解了TRSS-Plugin远程命令后门,该篇文章仅澄清所谓米游社盗号问题</p>
+</div>
+
+<p>其中部分谣言如下</p>
+<p><img src="https://image.blog.mapleleaf.icu/img/imgs/20250315210420879.png" alt="image-20250315210420148"></p>
+<p><img src="https://image.blog.mapleleaf.icu/img/imgs/20250315210510475.png" alt="image-20250315210509527"></p>
+<p><img src="https://image.blog.mapleleaf.icu/img/imgs/20250315210558062.png" alt="image-20250315210557082"></p>
+<p><img src="https://image.blog.mapleleaf.icu/img/imgs/20250315210623006.png" alt="image-20250315210622031"></p>
+<p><img src="https://image.blog.mapleleaf.icu/img/imgs/20250315210636189.png" alt="image-20250315210635542"></p>
+<p><img src="https://image.blog.mapleleaf.icu/img/imgs/20250315212859173.png"></p>
+<p><img src="https://image.blog.mapleleaf.icu/img/imgs/20250315212947049.png"></p>
+<p>在此,需要澄清几个概念,来让<strong>ChatGPT</strong>解释一下吧</p>
+<p>在米游社登录过程中，<code>BEGIN PUBLIC KEY</code> 代表的是 <strong>公钥</strong>，而不是密码学中的 <strong>盐（Salt）</strong>。误认为它是盐是对密码学概念的误解。</p>
+<h3 id="1-公钥（Public-Key）"><a href="#1-公钥（Public-Key）" class="headerlink" title="1. 公钥（Public Key）"></a>1. <strong>公钥（Public Key）</strong></h3><ul>
+<li>这是 <strong>非对称加密</strong>（如 RSA、ECC）中的一部分，通常用于加密数据或验证签名。</li>
+<li>在客户端登录时，公钥用于 <strong>加密用户输入的密码</strong>，然后再发送给服务器，以避免密码在传输过程中被截获。</li>
+<li>公钥是 <strong>公开的</strong>，就算泄露也不会影响安全性，关键在于私钥的保护。</li>
+<li>服务器端使用对应的 <strong>私钥（Private Key）</strong> 解密数据，并验证用户身份。</li>
+</ul>
+<h3 id="2-盐（Salt）"><a href="#2-盐（Salt）" class="headerlink" title="2. 盐（Salt）"></a>2. <strong>盐（Salt）</strong></h3><ul>
+<li><strong>盐是用于哈希（Hash）密码的额外随机数据</strong>，目的是防止彩虹表攻击。</li>
+<li>在存储密码时，通常会使用 <strong>哈希算法（如 SHA-256、bcrypt）</strong> 处理，盐的作用是增加唯一性，即使两个用户的密码相同，加盐后的哈希结果也不同。</li>
+<li>盐通常是 <strong>随机生成的</strong>，而不是固定值，否则容易被攻击。</li>
+</ul>
+<h3 id="公钥和盐的区别"><a href="#公钥和盐的区别" class="headerlink" title="公钥和盐的区别"></a><strong>公钥和盐的区别</strong></h3><table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>公钥（Public Key）</th>
+<th>盐（Salt）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>作用</td>
+<td>加密数据，保护传输安全</td>
+<td>增强哈希安全性，防止彩虹表攻击</td>
+</tr>
+<tr>
+<td>是否公开</td>
+<td>公开（仅公钥）</td>
+<td>私有（但存储在数据库中，与哈希一起使用）</td>
+</tr>
+<tr>
+<td>是否用于哈希</td>
+<td>否</td>
+<td>是</td>
+</tr>
+<tr>
+<td>是否用于加密</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>服务器使用</td>
+<td>用私钥解密数据</td>
+<td>结合哈希存储用户密码</td>
+</tr>
+</tbody></table>
+<h3 id="为什么公钥不是盐，也不会盗取密码？"><a href="#为什么公钥不是盐，也不会盗取密码？" class="headerlink" title="为什么公钥不是盐，也不会盗取密码？"></a><strong>为什么公钥不是盐，也不会盗取密码？</strong></h3><ul>
+<li>公钥 <strong>不会参与密码哈希</strong>，仅用于 <strong>加密密码</strong>，确保用户输入的密码在网络传输过程中不会被中间人窃取。</li>
+<li>服务器只会存储哈希值，而不会直接存储明文密码，即使数据库泄露，攻击者也无法直接获取用户密码。</li>
+<li>盐是用于哈希，而公钥是用于加密，两者在作用上完全不同。</li>
+</ul>
+<p>所谓的<strong>噪声</strong>,<strong>处理器速度</strong>,<strong>电压</strong>更是无稽之谈,Web端没有权限读取这些信息,更不可能那这些信息去加密了.</p>
+<h3 id="在此呼吁"><a href="#在此呼吁" class="headerlink" title="在此呼吁"></a>在此呼吁</h3><p><strong>1. 理性思考，避免盲目跟从</strong><br> 在网络上看到某些说法时，<strong>不要急于相信或传播</strong>，而是要先了解事实并核实信息来源。如果只是因为看到别人说“有问题”就盲目认同，可能会导致误导甚至制造谣言。</p>
+<p><strong>2. 了解技术原理，避免误解</strong></p>
+<ul>
+<li><code>BEGIN PUBLIC KEY</code> 是公钥的一部分，主要用于<strong>加密传输</strong>，而不是存储或处理密码。</li>
+<li>在密码学中，<strong>公钥加密用于保护数据，而不是泄露数据</strong>。它的作用是防止密码在网络传输时被窃取，而不是用来“固定盐”或“存储密码”。</li>
+<li>真正的密码存储安全性取决于服务器端的哈希与加盐处理，而不是传输时使用的公钥。</li>
+</ul>
+<p><strong>3. 质疑之前，请找证据</strong><br> 如果认为某个机制存在问题，应该提供<strong>技术性证据</strong>，比如<strong>代码分析、流量抓包、数据库泄露报告</strong>等，而不是单纯凭借“有人说”或主观猜测。<br> 盲目指责开发者可能会引发不必要的恐慌，也会让真正的安全问题被忽略。</p>
+<p><strong>4. 避免传播未经证实的信息</strong><br> 在不了解技术背景的情况下，随意传播“某平台会窃取账号”这样的言论，可能会造成误导。如果信息有误，可能会影响他人的判断，甚至损害平台的声誉。</p>
+<p><strong>5. 关注真正的账号安全</strong><br> 与其担心<strong>不存在的风险</strong>，不如<strong>加强自身的安全意识</strong>：<br> ✅ <strong>使用独立、强密码</strong>，避免多个网站使用相同密码。<br> ✅ <strong>开启二步验证（2FA）</strong>，即使密码泄露也能保护账号。<br> ✅ <strong>警惕钓鱼网站</strong>，不要轻易输入账号密码到陌生网页。</p>
+<p>总之，保持理性，独立思考，质疑要有依据，传播要负责任。<br> 对于任何技术问题，<strong>可以讨论，但要基于事实，而不是臆测，更不能以讹传讹，扭曲事实</strong></p>
+</article><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h>米游社登录简单逆向</h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="http://mapleleaf.icu/2025/03/15/myslogin/">http://mapleleaf.icu/2025/03/15/myslogin/</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a"><h>作者</h><div class="post-copyright-cc-info"><h>MapleLeaf</h></div></div><div class="post-copyright-c"><h>发布于</h><div class="post-copyright-cc-info"><h>2025-03-15</h></div></div><div class="post-copyright-u"><h>更新于</h><div class="post-copyright-cc-info"><h>2025-06-18</h></div></div><div class="post-copyright-c"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener external nofollow noreferrer" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a rel="noopener external nofollow noreferrer" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%80%86%E5%90%91/">逆向</a><a class="post-meta__tags" href="/tags/web%E9%80%86%E5%90%91/">web逆向</a></div><div class="post_share"><div class="social-share" data-image="https://image.blog.mapleleaf.icu/img/imgs/20250315212108369.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechatpay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechatpay.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/03/23/QQMusicSign/" title="QQ音乐sign参数逆向"><img class="cover" src="https://image.blog.mapleleaf.icu/img/imgs/20250323113903672.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">QQ音乐sign参数逆向</div></div></a></div><div class="next-post pull-right"><a href="/2025/01/14/DockerReverseProxy/" title="Docker反代搭建"><img class="cover" src="https://gitea.fireflyz.cc/MapleLeaf/images/raw/branch/main/img/20250114221120922.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Docker反代搭建</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2025/03/23/QQMusicSign/" title="QQ音乐sign参数逆向"><img class="cover" src="https://image.blog.mapleleaf.icu/img/imgs/20250323113903672.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-23</div><div class="title">QQ音乐sign参数逆向</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="card-info-avatar"><div class="avatar-img"><img src="http://q2.qlogo.cn/headimg_dl?dst_uin=1011303349&amp;spec=100" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-status-box"><div class="author-status"><g-emoji class="g-emoji" alias="palm_tree" fallback-src="https://lskypro.acozycotage.net/LightPicture/2022/12/fe1dc0402e623096.jpg">🐟</g-emoji><span>认真摸鱼中</span></div></div></div><div class="author-info__name">MapleLeaf</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/MapleLeaf2007"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/MapleLeaf2007" rel="external nofollow noreferrer" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:yeshang2007@gmail.com" rel="external nofollow noreferrer" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="https://t.me/MapleLeaf2007" rel="external nofollow noreferrer" target="_blank" title="Telegram"><i class="fa-brands fa-telegram" style="color: #26a5e4;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">An epitaph is short, and so is life.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E9%80%86%E5%90%91"><span class="toc-number">2.</span> <span class="toc-text">开始逆向</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%93%E5%8C%85"><span class="toc-number">2.1.</span> <span class="toc-text">抓包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E5%88%86%E6%9E%90"><span class="toc-number">2.2.</span> <span class="toc-text">参数分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E5%87%BA%E6%9C%89%E5%9B%A0"><span class="toc-number">3.</span> <span class="toc-text">事出有因</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B5%B7%E5%9B%A0"><span class="toc-number">3.1.</span> <span class="toc-text">起因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%85%AC%E9%92%A5%EF%BC%88Public-Key%EF%BC%89"><span class="toc-number">3.2.</span> <span class="toc-text">1. 公钥（Public Key）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%9B%90%EF%BC%88Salt%EF%BC%89"><span class="toc-number">3.3.</span> <span class="toc-text">2. 盐（Salt）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AC%E9%92%A5%E5%92%8C%E7%9B%90%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">3.4.</span> <span class="toc-text">公钥和盐的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%85%AC%E9%92%A5%E4%B8%8D%E6%98%AF%E7%9B%90%EF%BC%8C%E4%B9%9F%E4%B8%8D%E4%BC%9A%E7%9B%97%E5%8F%96%E5%AF%86%E7%A0%81%EF%BC%9F"><span class="toc-number">3.5.</span> <span class="toc-text">为什么公钥不是盐，也不会盗取密码？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E6%AD%A4%E5%91%BC%E5%90%81"><span class="toc-number">3.6.</span> <span class="toc-text">在此呼吁</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/04/04/ipapi/" title="个人整理的一些获取IP信息的接口"><img src="https://image.blog.mapleleaf.icu/image/imgs202411291351476.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="个人整理的一些获取IP信息的接口"/></a><div class="content"><a class="title" href="/2025/04/04/ipapi/" title="个人整理的一些获取IP信息的接口">个人整理的一些获取IP信息的接口</a><time datetime="2025-04-04T06:07:42.000Z" title="发表于 2025-04-04 14:07:42">2025-04-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/23/QQMusicSign/" title="QQ音乐sign参数逆向"><img src="https://image.blog.mapleleaf.icu/img/imgs/20250323113903672.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="QQ音乐sign参数逆向"/></a><div class="content"><a class="title" href="/2025/03/23/QQMusicSign/" title="QQ音乐sign参数逆向">QQ音乐sign参数逆向</a><time datetime="2025-03-23T01:26:01.000Z" title="发表于 2025-03-23 09:26:01">2025-03-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/03/15/myslogin/" title="米游社登录简单逆向"><img src="https://image.blog.mapleleaf.icu/img/imgs/20250315212108369.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="米游社登录简单逆向"/></a><div class="content"><a class="title" href="/2025/03/15/myslogin/" title="米游社登录简单逆向">米游社登录简单逆向</a><time datetime="2025-03-15T12:14:11.000Z" title="发表于 2025-03-15 20:14:11">2025-03-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/01/14/DockerReverseProxy/" title="Docker反代搭建"><img src="https://gitea.fireflyz.cc/MapleLeaf/images/raw/branch/main/img/20250114221120922.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Docker反代搭建"/></a><div class="content"><a class="title" href="/2025/01/14/DockerReverseProxy/" title="Docker反代搭建">Docker反代搭建</a><time datetime="2025-01-14T13:58:01.000Z" title="发表于 2025-01-14 21:58:01">2025-01-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/01/06/wslubuntu0x8007019e/" title="MicrosoftStore安装ubuntu出现0x8007019e"><img src="https://gitea.fireflyz.cc/MapleLeaf/images/raw/branch/main/img/20250106133351050.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MicrosoftStore安装ubuntu出现0x8007019e"/></a><div class="content"><a class="title" href="/2025/01/06/wslubuntu0x8007019e/" title="MicrosoftStore安装ubuntu出现0x8007019e">MicrosoftStore安装ubuntu出现0x8007019e</a><time datetime="2025-01-06T05:02:08.000Z" title="发表于 2025-01-06 13:02:08">2025-01-06</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://image.blog.mapleleaf.icu/image/imgs202411292105171.png')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By MapleLeaf</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener external nofollow noreferrer" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><a class="icon-V hidden" onclick="switchNightMode()" title="浅色和深色模式转换"><svg width="25" height="25" viewBox="0 0 1024 1024"><use id="modeicon" xlink:href="#icon-moon"></use></svg></a><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="share" type="button" title="分享链接" onclick="share()"><i class="fas fa-share-nodes"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"></i></button></div></div><div class="js-pjax" id="rightMenu"><div class="rightMenu-group rightMenu-small"><a class="rightMenu-item" href="javascript:window.history.back();" rel="external nofollow noreferrer"><i class="fa fa-arrow-left"></i></a><a class="rightMenu-item" href="javascript:window.history.forward();" rel="external nofollow noreferrer"><i class="fa fa-arrow-right"></i></a><a class="rightMenu-item" href="javascript:window.location.reload();" rel="external nofollow noreferrer"><i class="fa fa-refresh"></i></a><a class="rightMenu-item" href="javascript:rmf.scrollToTop();" rel="external nofollow noreferrer"><i class="fa fa-arrow-up"></i></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-text"><a class="rightMenu-item" href="javascript:rmf.copySelect();" rel="external nofollow noreferrer"><i class="fa fa-copy"></i><span>复制</span></a><a class="rightMenu-item" href="javascript:window.open(&quot;https://www.baidu.com/s?wd=&quot;+window.getSelection().toString());window.location.reload();" rel="external nofollow noreferrer"><i class="fa fa-search"></i><span>百度搜索</span></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-too"><a class="rightMenu-item" href="javascript:window.open(window.getSelection().toString());window.location.reload();" rel="external nofollow noreferrer"><i class="fa fa-link"></i><span>转到链接</span></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-paste"><a class="rightMenu-item" href="javascript:rmf.paste()" rel="external nofollow noreferrer"><i class="fa fa-copy"></i><span>粘贴</span></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-post"><a class="rightMenu-item" href="#post-comment"><i class="fas fa-comment"></i><span>空降评论</span></a><a class="rightMenu-item" href="javascript:rmf.copyWordsLink()" rel="external nofollow noreferrer"><i class="fa fa-link"></i><span>复制本文地址</span></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-to"><a class="rightMenu-item" href="javascript:rmf.openWithNewTab()" rel="external nofollow noreferrer"><i class="fa fa-window-restore"></i><span>新窗口打开</span></a><a class="rightMenu-item" id="menu-too" href="javascript:rmf.open()" rel="external nofollow noreferrer"><i class="fa fa-link"></i><span>转到链接</span></a><a class="rightMenu-item" href="javascript:rmf.copyLink()" rel="external nofollow noreferrer"><i class="fa fa-copy"></i><span>复制链接</span></a></div><div class="rightMenu-group rightMenu-line hide" id="menu-img"><a class="rightMenu-item" href="javascript:rmf.saveAs()" rel="external nofollow noreferrer"><i class="fa fa-download"></i><span>保存图片</span></a><a class="rightMenu-item" href="javascript:rmf.openWithNewTab()" rel="external nofollow noreferrer"><i class="fa fa-window-restore"></i><span>在新窗口打开</span></a><a class="rightMenu-item" href="javascript:rmf.copyLink()" rel="external nofollow noreferrer"><i class="fa fa-copy"></i><span>复制图片链接</span></a></div><div class="rightMenu-group rightMenu-line"><a class="rightMenu-item" href="javascript:randomPost()" rel="external nofollow noreferrer"><i class="fa fa-paper-plane"></i><span>随便逛逛</span></a><a class="rightMenu-item" href="javascript:switchNightMode();" rel="external nofollow noreferrer"><i class="fa fa-moon"></i><span>昼夜切换</span></a><a class="rightMenu-item" href="/personal/about/"><i class="fa fa-info-circle"></i><span>关于博客</span></a><a class="rightMenu-item" href="javascript:toggleWinbox();" rel="external nofollow noreferrer"><i class="fas fa-cog"></i><span>美化设置</span></a><a class="rightMenu-item" href="javascript:rmf.fullScreen();" rel="external nofollow noreferrer"><i class="fas fa-expand"></i><span>切换全屏</span></a><a class="rightMenu-item" href="javascript:window.print();" rel="external nofollow noreferrer"><i class="fa-solid fa-print"></i><span>打印页面</span></a></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="/js/tw_cn.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar@0.1.16/dist/snackbar.min.js"></script><div class="js-pjax"><script>(() => {
+  const initGitalk = () => {
+    const gitalk = new Gitalk(Object.assign({
+      clientID: 'Ov23lirEE1dRbdmQD7Ir',
+      clientSecret: 'e7998c0e218265d2fd477577a3fde7d3c86ab4d1',
+      repo: 'MapleLeaf2007.github.io',
+      owner: 'MapleLeaf2007',
+      admin: ['MapleLeaf2007'],
+      id: '823e8341908486e1bbc6c1eca932eeb9',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async() => {
+    if (typeof Gitalk === 'function') initGitalk()
+    else {
+      await getCSS('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.css')
+      await getScript('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js')
+      initGitalk()
+    }
+  }
+  
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><div class="aplayer no-destroy" data-id="4940084019" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="false" muted></div><script src="https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script><script src="/js/share.js"></script><script async src="https://cdn1.tianli0.top/npm/vue@2.6.14/dist/vue.min.js"></script><script async src="https://cdn1.tianli0.top/npm/element-ui@2.15.6/lib/index.js"></script><script defer type="text/javascript" src="https://cdn1.tianli0.top/npm/sweetalert2@8.19.0/dist/sweetalert2.all.js"></script><script defer src="/js/lunar.js"></script><script defer src="/js/day.js"></script><script src="/js/sun_moon.js" async></script><script type="text/javascript" src="https://cdn1.tianli0.top/npm/jquery@latest/dist/jquery.min.js"></script><script type="text/javascript" src="/js/rightmenu.js"></script><script async src="/js/fps.js"></script><script async src="/js/sakura.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>
